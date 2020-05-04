@@ -104,7 +104,7 @@ missing_vals <- sum(is.na(a_data$steps))
 
 There are 2304 missing values.
 
-**2. filling in all of the missing values in the dataset.**
+**2. Function to Fill all the missing values in the dataset.**
 
 ```r
 fill_mv <- function(data, pervalue) {
@@ -117,14 +117,18 @@ fill_mv <- function(data, pervalue) {
    fill_steps[na_index] <- na_replace
    fill_steps
 }
+```
 
+**3. Filling in all the missing values in the dataset.**
+
+```r
 a_data_fill <- data.frame(  
    steps = fill_mv(a_data, steps_taken_per_interval),  
    date = a_data$date,  
    interval = a_data$interval)
 ```
 
-**3. Checking the number of missing values after filling up the dataset.**
+**4. Checking the number of missing values after filling up the dataset.**
 
 ```r
 sum_mv_fill<-sum(is.na(a_data_fill$steps))
@@ -132,14 +136,14 @@ sum_mv_fill<-sum(is.na(a_data_fill$steps))
 
 The number of missing values after filling the data is 0.
 
-**4. Calculating the new daily step counts.**
+**5. Calculating the new daily step counts.**
 
 ```r
 fill_steps_taken_per_day <- aggregate(steps ~ date, a_data_fill, sum)
 colnames(fill_steps_taken_per_day) <- c("date","steps")
 ```
 
-**5. Histogram of the total number of steps taken each day after filling the missing values.**
+**6. Histogram of the total number of steps taken each day after filling the missing values.**
 
 ```r
 ##plotting the histogram
@@ -149,9 +153,9 @@ ggplot(fill_steps_taken_per_day, aes(x = steps)) +
        x = "Number of Steps per Day", y = "Number of times in a day") + theme_bw() 
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
-**6. The mean and median of steps taken after filling the missing values.**
+**7. The mean and median of steps taken after filling the missing values.**
 
 ```r
 steps_mean_after_fill <- mean(fill_steps_taken_per_day$steps, na.rm=TRUE)
@@ -215,6 +219,6 @@ plot_o_week <- ggplot(data_weekdays, aes(x=interval, y=steps)) +
 plot_o_week
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 Peak of the graph on weekdays is greater than the peak of the graph on weekends, although weekends have more peaks than weekdays.
